@@ -13,8 +13,8 @@ body{
 
 /* الحاوية الرئيسية — عرض مرن ومقيد */
 .container{
-  max-width:420px;
-  width:min(96%,420px); /* دائمًا مناسب للشاشة */
+  max-width:700px;
+  width:min(96%,500px); /* دائمًا مناسب للشاشة */
   margin:16px auto;
   background:#fff;
   padding:14px;
@@ -25,7 +25,7 @@ body{
 /* العنوان */
 h1{
   text-align:center;
-  font-size:20px;
+  font-size:25px;
   margin:6px 0 10px;
   line-height:1.15;
 }
@@ -33,7 +33,7 @@ h1{
 /* الرصيد */
 .balance{
   text-align:center;
-  font-size:18px;
+  font-size:22px;
   margin:8px 0 14px;
   font-weight:700;
   word-break:break-word;
@@ -50,7 +50,7 @@ h1{
 .form button{
   width:100%;
   padding:12px;
-  font-size:16px;
+  font-size:20px;
   border-radius:8px;
   border:1px solid #d0d6db;
   background:#fff;
@@ -78,7 +78,7 @@ h1{
   width:100%;
   padding:12px;
   margin-top:10px;
-  font-size:16px;
+  font-size:20px;
   border-radius:8px;
   border:none;
   background:#dc3545;
@@ -106,7 +106,7 @@ li{
   padding:10px;
   margin:0;
   border-radius:10px;
-  font-size:14px;
+  font-size:19px;
   background:transparent;
   flex-wrap:wrap; /* يلتف عند الحاجة */
 }
