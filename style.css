@@ -1,125 +1,170 @@
-* {
-    box-sizing: border-box;
+/* قواعد عامة */
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#f4f6f8;
+  direction:rtl;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  padding-top:env(safe-area-inset-top);
+  padding-bottom:env(safe-area-inset-bottom);
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    direction: rtl;
-}
-
-/* الحاوية الرئيسية */
-.container {
-    max-width: 420px;
-    margin: 20px auto;
-    background: #fff;
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+/* الحاوية الرئيسية — عرض مرن ومقيد */
+.container{
+  max-width:420px;
+  width:min(96%,420px); /* دائمًا مناسب للشاشة */
+  margin:16px auto;
+  background:#fff;
+  padding:14px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }
 
 /* العنوان */
-h1 {
-    text-align: center;
-    font-size: 22px;
-    margin-bottom: 10px;
+h1{
+  text-align:center;
+  font-size:20px;
+  margin:6px 0 10px;
+  line-height:1.15;
 }
 
 /* الرصيد */
-.balance {
-    text-align: center;
-    font-size: 18px;
-    margin: 10px 0 15px;
-    font-weight: bold;
+.balance{
+  text-align:center;
+  font-size:18px;
+  margin:8px 0 14px;
+  font-weight:700;
+  word-break:break-word;
 }
 
 /* الفورم */
-.form {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.form{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
-
 .form input,
 .form select,
-.form button {
-    width: 100%;
-    padding: 10px;
-    font-size: 15px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+.form button{
+  width:100%;
+  padding:12px;
+  font-size:16px;
+  border-radius:8px;
+  border:1px solid #d0d6db;
+  background:#fff;
+  min-height:44px; /* حجم لمس مناسب */
+  outline:none;
+}
+.form input::placeholder{color:#9aa3ab}
+.form input:focus,
+.form select:focus,
+.form button:focus{
+  box-shadow:0 0 0 3px rgba(0,123,255,0.12);
+  border-color:#007bff;
 }
 
-.form button {
-    background: #007bff;
-    color: #fff;
-    border: none;
-    cursor: pointer;
+/* أزرار */
+.form button{
+  background:#007bff;
+  color:#fff;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+  padding:12px;
+}
+.reset{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  font-size:16px;
+  border-radius:8px;
+  border:none;
+  background:#dc3545;
+  color:#fff;
+  cursor:pointer;
+  min-height:44px;
 }
 
 /* القائمة */
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 15px 0;
+ul{
+  list-style:none;
+  padding:0;
+  margin:14px 0;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
 }
 
-/* عنصر العملية */
-li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    margin-bottom: 8px;
-    border-radius: 8px;
-    font-size: 14px;
+/* عنصر العملية — يدعم التفاف المحتوى على شاشات ضيقة */
+li{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:10px;
+  margin:0;
+  border-radius:10px;
+  font-size:14px;
+  background:transparent;
+  flex-wrap:wrap; /* يلتف عند الحاجة */
 }
 
-li div {
-    max-width: 70%;
+/* تقسيم داخلي للعناصر لزيادة الاتساق */
+li .meta{
+  max-width:66%;
+  min-width:0;
+}
+li .meta b{
+  display:block;
+  font-weight:700;
+  margin-bottom:4px;
+  word-break:break-word;
+}
+li .meta small{
+  display:block;
+  font-size:12px;
+  color:#555;
+  opacity:0.9;
+  white-space:normal;
 }
 
-li small {
-    display: block;
-    font-size: 12px;
-    color: #555;
+/* قيمة العملية */
+li .amount{
+  font-weight:700;
+  min-width:85px;
+  text-align:left; /* لأن direction:rtl شامل، نترك الأرقام على اليسار */
+  white-space:nowrap;
 }
 
 /* دخل / مصروف */
-.income {
-    background: #d4edda;
+.income{background:#e9f7ee}
+.expense{background:#fff0f0}
+
+/* تحويل ألوان النص حسب النوع */
+.income .amount{color:#1e7e34}
+.expense .amount{color:#b02a37}
+
+/* تحسين لأجهزة أكبر */
+@media (min-width:768px){
+  .container{max-width:480px;padding:18px}
+  h1{font-size:24px}
+  .balance{font-size:20px}
+  .form input,.form select,.form button{font-size:15px;padding:11px}
 }
 
-.expense {
-    background: #f8d7da;
+/* تحسينات للشاشات الصغيرة جداً */
+@media (max-width:360px){
+  h1{font-size:18px}
+  .container{padding:12px;border-radius:10px}
+  .form input,.form select,.form button{padding:10px;font-size:15px;min-height:42px}
+  li .amount{min-width:70px;font-size:14px}
 }
 
-/* زر نهاية الشهر */
-.reset {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    font-size: 15px;
-    border-radius: 6px;
-    border: none;
-    background: #dc3545;
-    color: #fff;
-    cursor: pointer;
-}
+/* حالات وصول وتركيز لأغراض إمكانية الاستخدام */
+button:active{transform:translateY(1px)}
+button[disabled]{opacity:.6;cursor:not-allowed}
+a,button{touch-action:manipulation}
 
-/* تحسين شاشات أكبر */
-@media (min-width: 768px) {
-    .container {
-        max-width: 480px;
-        padding: 20px;
-    }
-
-    h1 {
-        font-size: 26px;
-    }
-
-    .balance {
-        font-size: 20px;
-    }
-}
+/* نهاية الملف */
