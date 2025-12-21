@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>محفظتي الإلكترونية</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>💰 محفظتي الإلكترونية</h1>
+
+    <div class="balance">
+        الرصيد الحالي: <span id="balance">0</span> جنيه
+    </div>
+
+    <div class="form">
+        <input type="text" id="desc" placeholder="الوصف">
+        <input type="number" id="amount" placeholder="المبلغ">
+        <select id="type">
+            <option value="income">دخل</option>
+            <option value="expense">مصروف</option>
+        </select>
+        <button onclick="addTransaction()">إضافة</button>
+    </div>
+
+    <ul id="transactions"></ul>
+
+    <button class="reset" onclick="endMonth()">نهاية الشهر 🧹</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
