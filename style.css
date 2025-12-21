@@ -168,3 +168,90 @@ button[disabled]{opacity:.6;cursor:not-allowed}
 a,button{touch-action:manipulation}
 
 /* نهاية الملف */
+
+
+/* ===== تحسينات قوية للشاشات الصغيرة جداً ===== */
+@media (max-width: 480px) {
+
+  body {
+    font-size: 15px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0;
+    padding: 12px;
+    box-shadow: none;
+  }
+
+  h1 {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .balance {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .form input,
+  .form select,
+  .form button {
+    font-size: 16px;
+    padding: 12px;
+    min-height: 48px;
+  }
+
+  /* عنصر العملية يصبح عمودي */
+  li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 15px;
+  }
+
+  li .meta {
+    max-width: 100%;
+  }
+
+  li .meta b {
+    font-size: 15px;
+  }
+
+  li .meta small {
+    font-size: 12px;
+  }
+
+  li .amount {
+    align-self: flex-end;
+    font-size: 16px;
+    min-width: auto;
+  }
+
+  .reset {
+    font-size: 16px;
+    min-height: 48px;
+  }
+}
+
+/* ===== دعم شاشات صغيرة جداً جداً (320px) ===== */
+@media (max-width: 360px) {
+
+  h1 {
+    font-size: 18px;
+  }
+
+  .balance {
+    font-size: 16px;
+  }
+
+  li {
+    padding: 8px;
+  }
+
+  li .amount {
+    font-size: 15px;
+  }
+}
