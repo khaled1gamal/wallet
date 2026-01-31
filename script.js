@@ -6,19 +6,24 @@ function saveData() {
   localStorage.setItem("transactions", JSON.stringify(transactions));
 }
 
-// حساب الرصيد الحالي
+// حساب الرصيد الحالي بشكل احترافي
 function calculateBalance() {
-  let balance = 0;
+  // 1. استخدام reduce بدلاً من forEach لأنها الأنسب لعمليات التجميع (Totaling)
+  const balance = transactions.reduce((acc, t) => {
+    return t.type === "income" ? acc + t.amount : acc - t.amount;
+  }, 0);
 
-  transactions.forEach((t) => {
-    if (t.type === "income") {
-      balance += t.amount;
-    } else {
-      balance -= t.amount;
-    }
-  });
+  // 2. استخدام Intl.NumberFormat لتنسيق الرقم كعملة بشكل احترافي (فواصل وآلاف)
+  const formattedBalance = new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(balance);
 
-  document.getElementById("balance").innerText = balance;
+  // 3. تحديث الواجهة
+  const balanceElement = document.getElementById("balance");
+  if (balanceElement) {
+    balanceElement.innerText = `${formattedBalance} ريال`;
+  }
 }
 
 //تعديل البيانات
@@ -72,7 +77,6 @@ function renderTransactions() {
 
   calculateBalance();
 }
-
 
 // إضافة دخل أو مصروف جديد مع التاريخ والوقت
 function addTransaction() {
