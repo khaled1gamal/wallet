@@ -1,5 +1,6 @@
 // تحميل البيانات من LocalStorage أو إنشاء مصفوفة جديدة
 let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+let filterType = "all"; // حالة الفلتر الحالية (الكل، دخل، مصروف)
 
 // حفظ البيانات
 function saveData() {
@@ -52,22 +53,67 @@ function editTransaction(index) {
   renderTransactions();
 }
 
+// حذف عملية محددة
+function deleteTransaction(index) {
+  if (confirm("هل أنت متأكد من حذف هذه العملية؟")) {
+    transactions.splice(index, 1);
+    saveData();
+    renderTransactions();
+  }
+}
+
 // عرض جميع العمليات
 function renderTransactions() {
   const list = document.getElementById("transactions");
+
+  // إضافة واجهة الفلتر ديناميكياً إذا لم تكن موجودة مسبقاً
+  if (!document.getElementById("filter-container")) {
+    const filterContainer = document.createElement("div");
+    filterContainer.id = "filter-container";
+    filterContainer.className = "filter-group";
+    filterContainer.innerHTML = `
+      <label><input type="radio" name="filter" value="all" checked> الكل</label>
+      <label><input type="radio" name="filter" value="income"> دخل</label>
+      <label><input type="radio" name="filter" value="expense"> مصروف</label>
+    `;
+    
+    // إدراج الفلتر قبل قائمة العمليات
+    list.parentNode.insertBefore(filterContainer, list);
+
+    // تفعيل التغيير عند اختيار فلتر
+    filterContainer.querySelectorAll("input").forEach(radio => {
+      radio.addEventListener("change", (e) => {
+        filterType = e.target.value;
+        renderTransactions();
+      });
+    });
+  }
+
   list.innerHTML = "";
 
   transactions.forEach((t, index) => {
+    // تخطي العنصر إذا لم يطابق الفلتر المختار
+    if (filterType !== "all" && t.type !== filterType) return;
+
     const li = document.createElement("li");
     li.className = t.type;
 
     li.innerHTML = `
-      <div>
-        <strong>${t.desc}</strong><br>
+      <div class="meta">
+        <b>${t.desc}</b>
         <small>${t.dateTime}</small>
       </div>
-      <span>${t.type === "income" ? "+" : "-"}${t.amount}</span>
+      <div class="action-group">
+        <span class="amount">${t.type === "income" ? "+" : "-"}${t.amount}</span>
+        <button class="delete-btn" title="حذف">×</button>
+      </div>
     `;
+
+    // تفعيل زر الحذف مع منع انتشار الحدث للعنصر الأب
+    li.querySelector(".delete-btn").addEventListener("click", (e) => {
+      e.stopPropagation();
+      deleteTransaction(index);
+    });
 
     // 🔹 عند الضغط للتعديل
     li.addEventListener("click", () => editTransaction(index));
