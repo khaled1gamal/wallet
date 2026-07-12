@@ -1,313 +1,498 @@
-/* قواعد عامة */
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#f4f6f8;
-  direction:rtl;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  padding-top:env(safe-area-inset-top);
-  padding-bottom:env(safe-area-inset-bottom);
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --income: #16a34a;
+  --income-bg: #e9f7ee;
+  --expense: #dc2626;
+  --expense-bg: #fff0f0;
+  --warning: #f59e0b;
+  --bg: #f4f6f8;
+  --card: #ffffff;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --border: #d0d6db;
+  --shadow: rgba(0, 0, 0, 0.08);
+  --filter-bg: #f8f9fa;
+  --stat-bg: #f1f5f9;
+  --toast-bg: #1e293b;
+  --toast-text: #ffffff;
+  --modal-backdrop: rgba(0, 0, 0, 0.45);
 }
 
-/* الحاوية الرئيسية — عرض مرن ومقيد */
-.container{
-  max-width:700px;
-  width:min(96%,500px); /* دائمًا مناسب للشاشة */
-  margin:16px auto;
-  background:#fff;
-  padding:14px;
-  border-radius:12px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+[data-theme="dark"] {
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --income: #4ade80;
+  --income-bg: #14532d33;
+  --expense: #f87171;
+  --expense-bg: #7f1d1d33;
+  --bg: #0f172a;
+  --card: #1e293b;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border: #334155;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --filter-bg: #334155;
+  --stat-bg: #334155;
+  --toast-bg: #f1f5f9;
+  --toast-text: #1e293b;
 }
 
-/* العنوان */
-h1{
-  text-align:center;
-  font-size:25px;
-  margin:6px 0 10px;
-  line-height:1.15;
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  direction: rtl;
+  -webkit-font-smoothing: antialiased;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  transition: background 0.2s, color 0.2s;
 }
 
-/* الرصيد */
-.balance{
-  text-align:center;
-  font-size:22px;
-  margin:8px 0 14px;
-  font-weight:700;
-  word-break:break-word;
+.container {
+  max-width: 700px;
+  width: min(96%, 520px);
+  margin: 16px auto;
+  background: var(--card);
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px var(--shadow);
+  transition: background 0.2s;
 }
 
-/* الفورم */
-.form{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
 }
+
+h1 {
+  font-size: 22px;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.header-actions { display: flex; gap: 8px; }
+
+.icon-btn {
+  background: var(--stat-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.icon-btn:hover { background: var(--filter-bg); }
+
+.section-title {
+  font-size: 16px;
+  margin: 0 0 10px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Dashboard */
+.dashboard { margin-bottom: 20px; }
+
+.balance-card {
+  text-align: center;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--primary), #1d4ed8);
+  border-radius: 12px;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.balance-label {
+  display: block;
+  font-size: 14px;
+  opacity: 0.9;
+  margin-bottom: 4px;
+}
+
+.balance-value {
+  display: block;
+  font-size: 28px;
+  font-weight: 700;
+  word-break: break-word;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.stat-card {
+  padding: 10px 8px;
+  border-radius: 10px;
+  background: var(--stat-bg);
+  text-align: center;
+}
+
+.stat-label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  word-break: break-word;
+}
+
+.income-stat .stat-value { color: var(--income); }
+.expense-stat .stat-value { color: var(--expense); }
+.savings-stat .stat-value { color: var(--primary); }
+
+/* Form */
+.form-section { margin-bottom: 20px; }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .form input,
 .form select,
-.form button{
-  width:100%;
-  padding:12px;
-  font-size:20px;
-  border-radius:8px;
-  border:1px solid #d0d6db;
-  background:#fff;
-  min-height:44px; /* حجم لمس مناسب */
-  outline:none;
+.form button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  min-height: 44px;
+  outline: none;
+  font-family: inherit;
 }
-.form input::placeholder{color:#9aa3ab}
+
+.form input::placeholder { color: var(--text-muted); }
+
 .form input:focus,
-.form select:focus,
-.form button:focus{
-  box-shadow:0 0 0 3px rgba(0,123,255,0.12);
-  border-color:#007bff;
+.form select:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  border-color: var(--primary);
 }
 
-/* أزرار */
-.form button{
-  background:#007bff;
-  color:#fff;
-  border:none;
-  cursor:pointer;
-  font-weight:600;
-  padding:12px;
-}
-.reset{
-  width:100%;
-  padding:12px;
-  margin-top:10px;
-  font-size:20px;
-  border-radius:8px;
-  border:none;
-  background:#dc3545;
-  color:#fff;
-  cursor:pointer;
-  min-height:44px;
+.form button[type="submit"],
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
 }
 
-/* القائمة */
-ul{
-  list-style:none;
-  padding:0;
-  margin:14px 0;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
+.form button[type="submit"]:hover,
+.btn-primary:hover { background: var(--primary-hover); }
+
+.btn-secondary {
+  background: var(--stat-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  min-height: 44px;
+  font-family: inherit;
 }
 
-/* عنصر العملية — يدعم التفاف المحتوى على شاشات ضيقة */
-li{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  padding:10px;
-  margin:0;
-  border-radius:10px;
-  font-size:19px;
-  background:transparent;
-  flex-wrap:wrap; /* يلتف عند الحاجة */
+.btn-danger {
+  background: var(--expense);
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  min-height: 44px;
+  font-family: inherit;
 }
 
-/* تقسيم داخلي للعناصر لزيادة الاتساق */
-li .meta{
-  max-width:66%;
-  min-width:0;
-}
-li .meta b{
-  display:block;
-  font-weight:700;
-  margin-bottom:4px;
-  word-break:break-word;
-}
-li .meta small{
-  display:block;
-  font-size:12px;
-  color:#555;
-  opacity:0.9;
-  white-space:normal;
+/* Transactions section */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
-/* قيمة العملية */
-li .amount{
-  font-weight:700;
-  min-width:85px;
-  text-align:left; /* لأن direction:rtl شامل، نترك الأرقام على اليسار */
-  white-space:nowrap;
+.section-header .section-title { margin: 0; }
+
+#search {
+  flex: 1;
+  max-width: 180px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text);
+  font-size: 14px;
+  min-height: 36px;
+  font-family: inherit;
 }
 
-/* دخل / مصروف */
-.income{background:#e9f7ee}
-.expense{background:#fff0f0}
-
-/* تحويل ألوان النص حسب النوع */
-.income .amount{color:#1e7e34}
-.expense .amount{color:#b02a37}
-
-/* تحسين لأجهزة أكبر */
-@media (min-width:768px){
-  .container{max-width:480px;padding:18px}
-  h1{font-size:24px}
-  .balance{font-size:20px}
-  .form input,.form select,.form button{font-size:15px;padding:11px}
+.filter-group {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 12px;
+  padding: 10px;
+  background: var(--filter-bg);
+  border-radius: 8px;
+  border: 1px solid var(--border);
 }
 
-/* تحسينات للشاشات الصغيرة جداً */
-@media (max-width:360px){
-  h1{font-size:18px}
-  .container{padding:12px;border-radius:10px}
-  .form input,.form select,.form button{padding:10px;font-size:15px;min-height:42px}
-  li .amount{min-width:70px;font-size:14px}
+.filter-group label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: 14px;
 }
 
-/* حالات وصول وتركيز لأغراض إمكانية الاستخدام */
-button:active{transform:translateY(1px)}
-button[disabled]{opacity:.6;cursor:not-allowed}
-a,button{touch-action:manipulation}
+.transactions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
-/* تنسيق مجموعة الإجراءات (المبلغ وزر الحذف) */
+.transactions-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform 0.15s;
+  flex-wrap: wrap;
+}
+
+.transactions-list li:hover { transform: translateY(-1px); }
+
+.transactions-list li.income { background: var(--income-bg); }
+.transactions-list li.expense { background: var(--expense-bg); }
+
+li .meta { max-width: 65%; min-width: 0; }
+
+li .meta b {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 4px;
+  word-break: break-word;
+}
+
+li .meta small {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+li .category-tag {
+  display: inline-block;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
 .action-group {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* زر الحذف */
+li .amount {
+  font-weight: 700;
+  min-width: 85px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.income .amount { color: var(--income); }
+.expense .amount { color: var(--expense); }
+
 .delete-btn {
-  background: #ff4d4d;
+  background: var(--expense);
   color: #fff;
   border: none;
   width: 30px;
   height: 30px;
   border-radius: 50%;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
-  line-height: 1;
-  transition: background 0.2s;
-}
-.delete-btn:hover {
-  background: #cc0000;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
 }
 
-/* تحسين ظهور الزر والمبلغ على الشاشات الصغيرة */
-@media (max-width: 480px) {
-  .action-group {
-    width: 100%;
-    justify-content: flex-end; /* محاذاة لليسار لأن الاتجاه RTL */
-  }
+.delete-btn:hover { opacity: 0.85; }
+
+.empty-state {
+  text-align: center;
+  padding: 32px 16px;
+  color: var(--text-muted);
 }
 
-/* تنسيق مجموعة الفلتر */
-.filter-group {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 10px;
-  padding: 10px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
+.empty-icon { font-size: 40px; display: block; margin-bottom: 8px; }
+.empty-state p { margin: 0 0 4px; font-weight: 600; }
+.empty-state small { font-size: 13px; }
+
+.hidden { display: none !important; }
+
+.actions-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
 }
-.filter-group label {
-  cursor: pointer;
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
   display: flex;
   align-items: center;
-  gap: 5px;
-  font-weight: bold;
-  color: #555;
+  justify-content: center;
+  padding: 16px;
 }
 
-/* نهاية الملف */
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--modal-backdrop);
+}
 
+.modal-content {
+  position: relative;
+  background: var(--card);
+  border-radius: 12px;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 32px var(--shadow);
+  z-index: 1;
+}
 
-/* ===== تحسينات قوية للشاشات الصغيرة جداً ===== */
+.modal-content h3 {
+  margin: 0 0 16px;
+  font-size: 18px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.modal-actions button { flex: 1; }
+
+.confirm-content p {
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+/* Toast */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast {
+  background: var(--toast-bg);
+  color: var(--toast-text);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  box-shadow: 0 4px 12px var(--shadow);
+  animation: toast-in 0.3s ease;
+  pointer-events: auto;
+}
+
+.toast.success { border-right: 4px solid var(--income); }
+.toast.error { border-right: 4px solid var(--expense); }
+.toast.info { border-right: 4px solid var(--primary); }
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+button:active { transform: translateY(1px); }
+button { touch-action: manipulation; }
+
 @media (max-width: 480px) {
-
-  body {
-    font-size: 15px;
-  }
-
   .container {
     width: 100%;
     max-width: 100%;
     margin: 0;
     border-radius: 0;
-    padding: 12px;
+    min-height: 100vh;
     box-shadow: none;
   }
 
-  h1 {
-    font-size: 20px;
-    margin-bottom: 8px;
-  }
+  h1 { font-size: 20px; }
 
-  .balance {
-    font-size: 18px;
-    margin-bottom: 12px;
-  }
+  .balance-value { font-size: 24px; }
 
-  .form input,
-  .form select,
-  .form button {
-    font-size: 16px;
-    padding: 12px;
-    min-height: 48px;
-  }
+  .stats-grid { gap: 6px; }
 
-  /* عنصر العملية يصبح عمودي */
-  li {
+  .stat-value { font-size: 13px; }
+
+  .section-header { flex-direction: column; align-items: stretch; }
+
+  #search { max-width: 100%; }
+
+  .transactions-list li {
     flex-direction: column;
     align-items: flex-start;
-    gap: 6px;
-    font-size: 15px;
   }
 
-  li .meta {
-    max-width: 100%;
+  li .meta { max-width: 100%; }
+
+  .action-group {
+    width: 100%;
+    justify-content: flex-end;
   }
 
-  li .meta b {
-    font-size: 15px;
-  }
-
-  li .meta small {
-    font-size: 12px;
-  }
-
-  li .amount {
-    align-self: flex-end;
-    font-size: 16px;
-    min-width: auto;
-  }
-
-  .reset {
-    font-size: 16px;
-    min-height: 48px;
-  }
+  .actions-footer { grid-template-columns: 1fr; }
 }
 
-/* ===== دعم شاشات صغيرة جداً جداً (320px) ===== */
 @media (max-width: 360px) {
-
-  h1 {
-    font-size: 18px;
-  }
-
-  .balance {
-    font-size: 16px;
-  }
-
-  li {
-    padding: 8px;
-  }
-
-  li .amount {
-    font-size: 15px;
-  }
+  .balance-value { font-size: 20px; }
+  .stat-label { font-size: 11px; }
 }

@@ -1,35 +1,123 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="محفظتي الإلكترونية - تتبع الدخل والمصروفات">
+    <meta name="theme-color" content="#2563eb">
     <title>محفظتي الإلكترونية</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="container">
-    <h1>💰 محفظتي الإلكترونية</h1>
+    <header class="app-header">
+        <h1>💰 محفظتي الإلكترونية</h1>
+        <div class="header-actions">
+            <button id="theme-toggle" class="icon-btn" title="تبديل الوضع" aria-label="تبديل الوضع">🌙</button>
+        </div>
+    </header>
 
-    <div class="balance">
-        الرصيد الحالي: <span id="balance">0</span> 
+    <section class="dashboard" aria-label="ملخص مالي">
+        <div class="balance-card">
+            <span class="balance-label">الرصيد الحالي</span>
+            <span id="balance" class="balance-value">0.00 ريال</span>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card income-stat">
+                <span class="stat-label">الدخل</span>
+                <span id="total-income" class="stat-value">0.00</span>
+            </div>
+            <div class="stat-card expense-stat">
+                <span class="stat-label">المصروف</span>
+                <span id="total-expense" class="stat-value">0.00</span>
+            </div>
+            <div class="stat-card savings-stat">
+                <span class="stat-label">الادخار</span>
+                <span id="total-savings" class="stat-value">0.00</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="form-section" aria-label="إضافة عملية">
+        <h2 class="section-title">إضافة عملية</h2>
+        <form id="add-form" class="form">
+            <input type="text" id="desc" placeholder="الوصف" required autocomplete="off">
+            <input type="number" id="amount" placeholder="المبلغ" min="0.01" step="0.01" required>
+            <select id="type" required>
+                <option value="income">دخل</option>
+                <option value="expense">مصروف</option>
+            </select>
+            <select id="category" required></select>
+            <input type="date" id="date" title="التاريخ">
+            <button type="submit">إضافة</button>
+        </form>
+    </section>
+
+    <section class="transactions-section" aria-label="قائمة العمليات">
+        <div class="section-header">
+            <h2 class="section-title">العمليات</h2>
+            <input type="search" id="search" placeholder="🔍 بحث..." autocomplete="off">
+        </div>
+
+        <div id="filter-container" class="filter-group">
+            <label><input type="radio" name="filter" value="all" checked> الكل</label>
+            <label><input type="radio" name="filter" value="income"> دخل</label>
+            <label><input type="radio" name="filter" value="expense"> مصروف</label>
+        </div>
+
+        <ul id="transactions" class="transactions-list"></ul>
+        <div id="empty-state" class="empty-state hidden">
+            <span class="empty-icon">📭</span>
+            <p>لا توجد عمليات بعد</p>
+            <small>أضف أول عملية من النموذج أعلاه</small>
+        </div>
+    </section>
+
+    <div class="actions-footer">
+        <button id="archive-btn" class="btn-secondary">📦 أرشفة الشهر</button>
+        <button id="export-btn" class="btn-secondary">📥 تصدير CSV</button>
     </div>
-
-    <div class="form">
-        <input type="text" id="desc" placeholder="الوصف">
-        <input type="number" id="amount" placeholder="المبلغ">
-        <select id="type">
-            <option value="income">دخل</option>
-            <option value="expense">مصروف</option>
-        </select>
-        <button onclick="addTransaction()">إضافة</button>
-    </div>
-
-    <ul id="transactions"></ul>
-
-    <button class="reset" onclick="endMonth()">نهاية الشهر 🧹</button>
 </div>
 
-<script src="script.js"></script>
+<!-- Modal -->
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+        <h3 id="modal-title">تعديل العملية</h3>
+        <form id="edit-form" class="form">
+            <input type="hidden" id="edit-id">
+            <input type="text" id="edit-desc" placeholder="الوصف" required>
+            <input type="number" id="edit-amount" placeholder="المبلغ" min="0.01" step="0.01" required>
+            <select id="edit-type" required>
+                <option value="income">دخل</option>
+                <option value="expense">مصروف</option>
+            </select>
+            <select id="edit-category" required></select>
+            <input type="date" id="edit-date">
+            <div class="modal-actions">
+                <button type="button" id="modal-cancel" class="btn-secondary">إلغاء</button>
+                <button type="submit" class="btn-primary">حفظ</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Confirm dialog -->
+<div id="confirm-dialog" class="modal hidden" role="alertdialog" aria-modal="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content confirm-content">
+        <p id="confirm-message"></p>
+        <div class="modal-actions">
+            <button type="button" id="confirm-cancel" class="btn-secondary">إلغاء</button>
+            <button type="button" id="confirm-ok" class="btn-danger">تأكيد</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast container -->
+<div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+<script type="module" src="js/app.js"></script>
 </body>
 </html>
