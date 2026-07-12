@@ -6,6 +6,9 @@ export const CATEGORIES = {
   bills: { label: "فواتير", types: ["expense"], icon: "💡" },
   entertainment: { label: "ترفيه", types: ["expense"], icon: "🎮" },
   health: { label: "صحة", types: ["expense"], icon: "🏥" },
+  education: { label: "تعليم", types: ["expense"], icon: "🎓" },
+  savings: { label: "ادخار", types: ["expense"], icon: "💰" },
+  gifts: { label: "هدايا", types: ["expense"], icon: "🎁" },
   other: { label: "أخرى", types: ["income", "expense"], icon: "📦" },
 };
 
